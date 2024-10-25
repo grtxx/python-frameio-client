@@ -371,7 +371,10 @@ class AWSClient(HTTPClient, object):
 
         pprint(self.downloader)
 
-        offset = math.ceil(self.downloader.filesize / self.downloader.chunks)
+        if ( self.downloader.chunks > 0 ):
+            offset = math.ceil(self.downloader.filesize / self.downloader.chunks)
+        else:
+            offset = 0
         in_byte = 0  # Set initially here, but then override
 
         print(
