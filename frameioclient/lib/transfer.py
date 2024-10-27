@@ -273,12 +273,12 @@ class AWSClient(HTTPClient, object):
 
     def _download_whole(self, url: str):
         start_time = time.time()
-        print(
-            "Beginning download -- {} -- {}".format(
-                self.asset["name"],
-                Utils.format_value(self.downloader.filesize, type=FormatTypes.SIZE),
-            )
-        )
+        #print(
+        #    "Beginning download -- {} -- {}".format(
+        #        self.asset["name"],
+        #        Utils.format_value(self.downloader.filesize, type=FormatTypes.SIZE),
+        #    )
+        #)
 
         # Downloading
         self.session = self._get_session()
@@ -298,9 +298,9 @@ class AWSClient(HTTPClient, object):
         download_speed = Utils.format_value(
             math.ceil(self.downloader.filesize / (download_time))
         )
-        print(
-            f"Downloaded {Utils.format_value(self.downloader.filesize, type=FormatTypes.SIZE)} at {Utils.format_value(download_speed, type=FormatTypes.SPEED)}"
-        )
+        #print(
+        #    f"Downloaded {Utils.format_value(self.downloader.filesize, type=FormatTypes.SIZE)} at {Utils.format_value(download_speed, type=FormatTypes.SPEED)}"
+        #)
 
         return self.destination, download_speed
 
@@ -323,7 +323,7 @@ class AWSClient(HTTPClient, object):
                 self.downloader.filesize - (self.bytes_started + chunk_size)
             )  # should be negative
             chunk_size = chunk_size - difference
-            print(f"Chunk size as done via math: {chunk_size}")
+            #print(f"Chunk size as done via math: {chunk_size}")
         else:
             pass
 
@@ -369,7 +369,7 @@ class AWSClient(HTTPClient, object):
         except Exception as e:
             raise DownloadException(message=e)
 
-        pprint(self.downloader)
+        #pprint(self.downloader)
 
         if ( self.downloader.chunks > 0 ):
             offset = math.ceil(self.downloader.filesize / self.downloader.chunks)
@@ -377,9 +377,9 @@ class AWSClient(HTTPClient, object):
             offset = 0
         in_byte = 0  # Set initially here, but then override
 
-        print(
-            f"Multi-part download -- {self.downloader.asset['name']} -- {Utils.format_value(self.downloader.filesize, type=FormatTypes.SIZE)}"
-        )
+        #print(
+        #    f"Multi-part download -- {self.downloader.asset['name']} -- {Utils.format_value(self.downloader.filesize, type=FormatTypes.SIZE)}"
+        #)
 
         with concurrent.futures.ThreadPoolExecutor(
             max_workers=self.concurrency
@@ -405,13 +405,13 @@ class AWSClient(HTTPClient, object):
             for future in concurrent.futures.as_completed(self.futures):
                 try:
                     chunk_size = future.result()
-                    print(chunk_size)
+                    #print(chunk_size)
                 except Exception as exc:
                     print(exc)
 
         # Calculate and print stats
         download_time = round((time.time() - start_time), 2)
-        pprint(self.downloader)
+        #pprint(self.downloader)
         download_speed = round((self.downloader.filesize / download_time), 2)
 
         # TODO: Ensure this works correctly on assets that are missing checksums/at all
