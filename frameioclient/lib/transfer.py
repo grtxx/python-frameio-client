@@ -102,7 +102,7 @@ class FrameioDownloader(object):
         return True
 
     def _get_path(self):
-        logger.info("prefix: {}".format(self.prefix))
+        #logger.info("prefix: {}".format(self.prefix))
         if self.prefix != None:
             self.filename = self.prefix + self.filename
 
@@ -155,9 +155,10 @@ class FrameioDownloader(object):
 
         # Check folders
         if os.path.isdir(os.path.join(os.path.curdir, self.download_folder)):
-            logger.info("Folder exists, don't need to create it")
+            pass
+            #logger.info("Folder exists, don't need to create it")
         else:
-            logger.info("Destination folder not found, creating")
+            #logger.info("Destination folder not found, creating")
             os.mkdir(self.download_folder)
 
         # Check files
@@ -168,7 +169,7 @@ class FrameioDownloader(object):
             os.remove(self.get_path())
 
         if os.path.isfile(self.get_path()) and self.replace == False:
-            logger.info("File already exists at this location.")
+            #logger.info("File already exists at this location.")
             return self.destination
 
         # Get URL
@@ -428,9 +429,9 @@ class AWSClient(HTTPClient, object):
         #         raise AssetChecksumMismatch
 
         # Log completion event
-        SDKLogger("downloads").info(
-            f"Downloaded {Utils.format_value(self.downloader.filesize, type=FormatTypes.SIZE)} at {Utils.format_value(download_speed, type=FormatTypes.SPEED)}"
-        )
+        #SDKLogger("downloads").info(
+        #    f"Downloaded {Utils.format_value(self.downloader.filesize, type=FormatTypes.SIZE)} at {Utils.format_value(download_speed, type=FormatTypes.SPEED)}"
+        #)
 
         # Submit telemetry
         transfer_stats = {
